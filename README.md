@@ -237,6 +237,37 @@ The plugin provides the following built-in tools for interacting with Jenkins:
 - `whoAmI`: Get information about the current user.
 - `getStatus`: Checks the health and readiness status of a Jenkins instance. Use this tool to assess Jenkins instance health rather than simple up/down status.
 
+#### Plugin Management
+- `getInstalledPlugins`: Get a paginated list of all installed Jenkins plugins, sorted by name. Supports filtering by active status and pagination with configurable limits.
+  - **Parameters**:
+    - `skip`: Starting index for pagination (optional, default: 0)
+    - `limit`: Maximum number of plugins to return (optional, default: 50, max: 100)
+    - `activeOnly`: Filter to show only active plugins (optional, default: false)
+  - **Returns**: Plugin information including shortName, displayName, version, active status, enabled status, hasUpdate flag, and URL.
+
+- `getPlugin`: Get detailed information about a specific Jenkins plugin by its short name.
+  - **Parameters**:
+    - `pluginShortName`: The short name of the plugin (e.g., 'git', 'workflow-aggregator')
+  - **Returns**: Complete plugin details including shortName, displayName, version, active, enabled, hasUpdate, url, longName, and supportsDynamicLoad.
+
+#### JVM Metrics and Monitoring
+- `getJvmHeapUtilization`: Get JVM heap memory utilization and statistics for the Jenkins instance.
+  - **Returns**: Current heap usage, maximum heap size, free memory, committed memory, usage percentage, and human-readable formatted sizes (MB/GB).
+  - **Use Case**: Monitor Jenkins memory health and identify potential memory issues.
+
+- `getJvmMemoryMetrics`: Get comprehensive JVM memory metrics including heap, non-heap, and individual memory pools.
+  - **Returns**: Detailed breakdown of:
+    - Heap memory (used, max, committed, free, percentage)
+    - Non-heap memory (Metaspace, Code Cache, etc.)
+    - Individual memory pools (Eden Space, Old Gen, Survivor Space, Metaspace, Compressed Class Space)
+    - Runtime information (total memory, free memory, available processors, uptime)
+  - **Use Case**: Deep dive into JVM memory allocation and troubleshoot memory-related performance issues.
+
+- `triggerGarbageCollection`: Trigger garbage collection and return memory metrics before and after GC.
+  - **Returns**: Memory usage before GC, after GC, freed memory amount, and GC duration.
+  - **Warning**: This is a destructive operation that may temporarily impact Jenkins performance. Use with caution in production environments.
+  - **Use Case**: Force memory cleanup and analyze garbage collection effectiveness.
+
 
 
 Each tool accepts specific parameters to customize its behavior. For detailed usage instructions and parameter descriptions, refer to the API documentation or use the MCP introspection capabilities.
