@@ -69,7 +69,10 @@ public class EndPointTest {
                             "getBuildChangeSets",
                             "getStatus",
                             "getPlugin",
-                            "getInstalledPlugins");
+                            "getInstalledPlugins",
+                            "getJvmHeapUtilization",
+                            "getJvmMemoryMetrics",
+                            "triggerGarbageCollection");
 
             var sayHelloTool = tools.tools().stream()
                     .filter(tool -> "sayHello".equals(tool.name()))
